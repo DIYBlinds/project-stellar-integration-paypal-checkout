@@ -58,9 +58,11 @@ function logToNewRelic({
       },
       body: JSON.stringify(body),
     }).catch((error) => {
+      // eslint-disable-next-line no-console
       console.error('Failed pushing data to newrelic', error);
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed pushing data to newrelic', error);
   }
 }
