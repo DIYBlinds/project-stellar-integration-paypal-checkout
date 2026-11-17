@@ -42,10 +42,11 @@ export class PaypalComponent extends DefaultPaypalComponent {
         height: 40,
         label: "buynow",
       },
-      fundingSource: 'paypal',
+      fundingSource: "paypal",
       onClick: (_, actions) => {
         if (this.componentOptions.onPayButtonClick) {
-          return this.componentOptions.onPayButtonClick()
+          return this.componentOptions
+            .onPayButtonClick()
             .then(() => actions.resolve())
             .catch(() => actions.reject());
         }
@@ -74,6 +75,7 @@ export class PaypalComponent extends DefaultPaypalComponent {
                     experience_context: {
                       payment_method_preference: "IMMEDIATE_PAYMENT_REQUIRED",
                       user_action: "PAY_NOW",
+                      shipping_preference: "SET_PROVIDED_ADDRESS",
                     },
                   },
                 },
@@ -83,7 +85,7 @@ export class PaypalComponent extends DefaultPaypalComponent {
 
           if (!response.ok) {
             const error = await response.json().catch(() => ({})); // Graceful handling if JSON parsing fails
-            const debugId =  error?.errors?.[0]?.debug_id
+            const debugId = error?.errors?.[0]?.debug_id;
             const errorDetail = error?.errors?.[0]?.details?.[0];
             const errorMessage = errorDetail
               ? `${errorDetail?.issue} ${errorDetail?.description} (${debugId})`
@@ -119,7 +121,7 @@ export class PaypalComponent extends DefaultPaypalComponent {
             const error = await response.json().catch(() => ({})); // Graceful handling if JSON parsing fails
 
             const errorDetail = error?.errors?.[0]?.details?.[0];
-            const debugId =  error?.errors?.[0]?.debug_id
+            const debugId = error?.errors?.[0]?.debug_id;
             const errorMessage = errorDetail
               ? `${errorDetail?.issue} ${errorDetail?.description} (${debugId})`
               : JSON.stringify(error);
